@@ -1,0 +1,25 @@
+﻿@page "/BoatList"
+@using BlazorApp1
+@using BlazorApp1.Components.Models
+<h3>Nos bateaux disponibles</h3>
+
+@if (Boats is null || Boats.Count == 0)
+{
+    <p>Aucun bateau à afficher.</p>
+}
+else
+{
+    <div class="Boat-List">
+        @foreach (var Boat in Boats)
+        {
+            <div class="bateau-card">
+                <img src="@Boat.ImageUrl" alt="@Boat.Nom" width="200" />
+                <h4>@Boat.Nom</h4>
+                <p>@Boat.Description</p>
+                <p><strong>@Boat.PrixParJour € / jour</strong></p>
+            </div>
+        }
+    </div>
+}
+
+

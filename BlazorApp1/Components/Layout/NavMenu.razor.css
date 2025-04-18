@@ -89,6 +89,28 @@
     display: block;
 }
 
+/*Boutton*/
+.nav-maritime {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background-color: #003566;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+    .nav-maritime:hover,
+    .nav-maritime.active {
+        background-color: #001d3d;
+        color: #ffc300;
+        border-color: #fff;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
