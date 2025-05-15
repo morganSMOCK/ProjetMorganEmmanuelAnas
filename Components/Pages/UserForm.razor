@@ -1,0 +1,33 @@
+﻿@page "/ajouter-utilisateur"
+@using BlazorApp1.Components.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
+
+<h3>Créer un utilisateur</h3>
+
+<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit">
+    <InputText @bind-Value="newUser.Nom" class="form-control" />
+    <InputText @bind-Value="newUser.Email" class="form-control" />
+    <button type="submit">Ajouter</button>
+</EditForm>
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-success">@message</div>
+}
+
+@code {
+    private User newUser = new();
+    private string? message;
+
+    private async Task HandleValidSubmit()
+    {
+        var count = await DbContext.Users.CountAsync();
+        Console.WriteLine($"UTILISATEURS EN BASE : {count}");
+        DbContext.Users.Add(newUser);
+        await DbContext.SaveChangesAsync();
+        message = "Utilisateur ajouté avec succès !";
+
+        newUser = new(); // réinitialiser le formulaire
+    }
+}
