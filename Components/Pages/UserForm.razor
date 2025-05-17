@@ -5,11 +5,12 @@
 
 <h3>Créer un utilisateur</h3>
 
-<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit" @formname="formAjoutUtilisateur">
     <InputText @bind-Value="newUser.Nom" class="form-control" />
     <InputText @bind-Value="newUser.Email" class="form-control" />
     <button type="submit">Ajouter</button>
 </EditForm>
+
 
 @if (!string.IsNullOrWhiteSpace(message))
 {
