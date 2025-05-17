@@ -1,34 +1,60 @@
 ﻿@page "/ajouter-utilisateur"
 @using BlazorApp1.Components.Data
+@using UserModel = BlazorApp1.Components.Data.User
 @using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
 @inject ApplicationDbContext DbContext
 
 <h3>Créer un utilisateur</h3>
 
-<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit" @formname="formAjoutUtilisateur">
-    <InputText @bind-Value="newUser.Nom" class="form-control" />
-    <InputText @bind-Value="newUser.Email" class="form-control" />
-    <button type="submit">Ajouter</button>
-</EditForm>
+<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit" FormName="ajout-utilisateur">
 
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-2">
+        <label>Nom :</label>
+        <InputText @bind-Value="newUser.Nom" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Email :</label>
+        <InputText @bind-Value="newUser.Email" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+
+</EditForm>
 
 @if (!string.IsNullOrWhiteSpace(message))
 {
-    <div class="alert alert-success">@message</div>
+    <div class="alert alert-success mt-2">@message</div>
 }
 
 @code {
-    private User newUser = new();
-    private string? message;
-
+    private BlazorApp1.Components.Data.User newUser = new(); // Le modèle lié au formulaire
+    private string? message; // Message de confirmation
+ 
     private async Task HandleValidSubmit()
     {
-        var count = await DbContext.Users.CountAsync();
-        Console.WriteLine($"UTILISATEURS EN BASE : {count}");
-        DbContext.Users.Add(newUser);
-        await DbContext.SaveChangesAsync();
-        message = "Utilisateur ajouté avec succès !";
+        message = "HandleValidSubmit déclenché !";
+        try
+        {
+            // Ajout du nouvel utilisateur à la base
+            DbContext.Users.Add(newUser);
+            await DbContext.SaveChangesAsync();
 
-        newUser = new(); // réinitialiser le formulaire
+            // Message de succès
+            message = "Utilisateur ajouté avec succès !";
+
+            // Réinitialisation du formulaire
+            newUser = new();
+        }
+        catch (Exception ex)
+        {
+            // Gestion d’erreur en cas d’échec
+            message = $"Erreur lors de l’ajout de l’utilisateur : {ex.Message}";
+        }
     }
 }
