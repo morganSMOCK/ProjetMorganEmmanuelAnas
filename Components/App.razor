@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using BlazorApp1.Components.Layout
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Page non trouvée.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,7 +27,6 @@
 </head>
 
 <body>
-    <Routes />
     <script src="_framework/blazor.web.js"></script>
 </body>
 

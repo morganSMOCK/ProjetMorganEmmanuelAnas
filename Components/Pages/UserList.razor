@@ -1,0 +1,33 @@
+﻿@page "/utilisateurs"
+@using BlazorApp1.Components.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
+
+<h3>Liste des utilisateurs</h3>
+
+@if (users == null)
+{
+    <p>Chargement...</p>
+}
+else if (!users.Any())
+{
+    <p>Aucun utilisateur pour le moment.</p>
+}
+else
+{
+    <ul>
+        @foreach (var user in users)
+        {
+            <li>@user.Nom - @user.Email</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<User>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await DbContext.Users.ToListAsync();
+    }
+}
