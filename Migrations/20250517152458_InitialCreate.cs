@@ -5,7 +5,7 @@
 namespace BlazorApp1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitSQLite : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

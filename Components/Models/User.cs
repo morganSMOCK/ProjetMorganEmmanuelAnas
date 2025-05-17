@@ -6,11 +6,11 @@ namespace BlazorApp1.Components.Data
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "L'email est obligatoire")]
+        [EmailAddress(ErrorMessage = "Format d'email invalide")]
         public string Email { get; set; }
     }
 }
