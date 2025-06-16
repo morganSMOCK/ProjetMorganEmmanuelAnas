@@ -17,6 +17,12 @@ else
                 <h4>@Boat.Nom</h4>
                 <p>@Boat.Description</p>
                 <p><strong>@Boat.PrixParJour € / jour</strong></p>
+                <div class="nav-item px-3">
+                    <NavLink href="/BoatList" Match="NavLinkMatch.Prefix" class="nav-maritime">
+                        <span class="nav-maritime" aria-hidden="true">Réserver</span>
+                    </NavLink>
+
+                </div>
             </div>
         }
     </div>

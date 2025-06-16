@@ -11,8 +11,9 @@
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink href="/ajouter-utilisateur" Match="NavLinkMatch.All">
-                Ajouter un utilisateur
+            <NavLink href="/ajouter-utilisateur" Match="NavLinkMatch.All" class="nav-maritime">
+                <span class="nav-maritime" aria-hidden="true"> S'inscrire</span>
+               
             </NavLink>
 
         </div>
@@ -26,14 +27,14 @@
 
         <div class="nav-item px-3">
             <NavLink href="/BoatList" Match="NavLinkMatch.Prefix" class="nav-maritime">
-                <span class="nav-maritime" aria-hidden="true">Nos Bateaux</span>
+                <span class="nav-maritime" aria-hidden="true">Mes Favories</span>
             </NavLink>
 
         </div>
 
         <div class="nav-item px-3">
             <NavLink href="/BoatList" Match="NavLinkMatch.Prefix" class="nav-maritime">
-                <span class="nav-maritime" aria-hidden="true">Nos Bateaux</span>
+                <span class="nav-maritime" aria-hidden="true">Nouveauté</span>
             </NavLink>
 
         </div>
