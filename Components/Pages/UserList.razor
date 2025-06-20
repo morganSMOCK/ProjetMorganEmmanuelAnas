@@ -1,33 +1,37 @@
 ﻿@page "/utilisateurs"
 @using BlazorApp1.Components.Data
-@using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext DbContext
+@using BlazorApp1.Services
+@inject MongoDBService MongoDBService
 
 <h3>Liste des utilisateurs</h3>
 
-@if (users == null)
+@if (utilisateurs == null)
 {
     <p>Chargement...</p>
-}
-else if (!users.Any())
-{
-    <p>Aucun utilisateur pour le moment.</p>
 }
 else
 {
     <ul>
-        @foreach (var user in users)
+        @foreach (var utilisateur in utilisateurs)
         {
-            <li>@user.Nom - @user.Email</li>
+            <li>@utilisateur.Nom - @utilisateur.Email</li>
         }
     </ul>
 }
 
 @code {
-    private List<User>? users;
+    private List<Utilisateur> utilisateurs;
 
     protected override async Task OnInitializedAsync()
     {
-        users = await DbContext.Users.ToListAsync();
+        try
+        {
+            utilisateurs = await MongoDBService.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            // Gestion d'erreur si la récupération échoue
+            Console.WriteLine($"Erreur lors de la récupération des utilisateurs : {ex.Message}");
+        }
     }
 }

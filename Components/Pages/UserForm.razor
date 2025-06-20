@@ -1,26 +1,25 @@
 ﻿@page "/ajouter-utilisateur"
 @using BlazorApp1.Components.Data
-@using UserModel = BlazorApp1.Components.Data.User
-@using Microsoft.EntityFrameworkCore
+@using BlazorApp1.Services
+@using MongoDB.Driver
 @rendermode InteractiveServer
-@inject ApplicationDbContext DbContext
+@inject MongoDBService MongoDBService
 
 <h3>Créer un utilisateur</h3>
 
-<EditForm Model="@newUser" OnValidSubmit="HandleValidSubmit" FormName="ajout-utilisateur">
-
+<EditForm Model="@newUtilisateur" OnValidSubmit="HandleValidSubmit" FormName="ajout-utilisateur">
 
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="mb-2">
         <label>Nom :</label>
-        <InputText @bind-Value="newUser.Nom" placeholder="Nom" class="form-control" />
+        <InputText @bind-Value="newUtilisateur.Nom" placeholder="Nom" class="form-control" />
     </div>
 
     <div class="mb-2">
         <label>Email :</label>
-        <InputText @bind-Value="newUser.Email" placeholder="Email" class="form-control" />
+        <InputText @bind-Value="newUtilisateur.Email" placeholder="Email" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -33,23 +32,22 @@
 }
 
 @code {
-    private BlazorApp1.Components.Data.User newUser = new(); // Le modèle lié au formulaire
+    private Utilisateur newUtilisateur = new(); // Le modèle lié au formulaire
     private string? message; // Message de confirmation
- 
+
     private async Task HandleValidSubmit()
     {
         message = "HandleValidSubmit déclenché !";
         try
         {
-            // Ajout du nouvel utilisateur à la base
-            DbContext.Users.Add(newUser);
-            await DbContext.SaveChangesAsync();
+            // Ajout du nouvel utilisateur à la base MongoDB
+            await MongoDBService.AddUtilisateurAsync(newUtilisateur);
 
             // Message de succès
             message = "Utilisateur ajouté avec succès !";
 
             // Réinitialisation du formulaire
-            newUser = new();
+            newUtilisateur = new();
         }
         catch (Exception ex)
         {

@@ -1,31 +1,23 @@
-﻿using BlazorApp1.Components.Data;
-using BlazorApp1.Components;
-using Microsoft.EntityFrameworkCore;
+﻿using BlazorApp1.Components;
+using BlazorApp1.Services;  // Assure-toi d'avoir cette directive
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Enregistrer le service MongoDB en tant que singleton
+builder.Services.AddSingleton<MongoDBService>();
+
+// Enregistrement des autres services nécessaires pour Blazor
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite("Data Source=utilisateurs.db")); // ← SQLite ici
-
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-}
-
+// Configuration du pipeline HTTP
 app.UseStaticFiles();
 app.UseAntiforgery();
-
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 app.Run();
