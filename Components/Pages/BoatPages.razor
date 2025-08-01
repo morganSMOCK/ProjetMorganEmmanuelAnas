@@ -1,0 +1,94 @@
+﻿@page "/bateaux"
+@inject ApplicationDbContext db
+@using BlazorApp1.Components.Models
+@using Microsoft.EntityFrameworkCore
+
+<h3>Liste des Bateaux</h3>
+
+<input type="text" @bind="formBateau.Nom" placeholder="Nom" />
+<input type="number" @bind="formBateau.Capacite" placeholder="Capacité" />
+<input type="text" @bind="formBateau.Type" placeholder="Type" />
+
+<button @onclick="SaveBateau">
+    @(editingId == null ? "Ajouter" : "Mettre à jour")
+</button>
+@if (editingId != null)
+{
+    <button @onclick="CancelEdit">Annuler</button>
+}
+
+<ul>
+    @foreach (var bateau in bateaux)
+    {
+        <li>
+            <b>@bateau.Nom</b> (@bateau.Capacite) - @bateau.Type
+            <button @onclick="() => EditBateau(bateau)">Modifier</button>
+            <button @onclick="() => DeleteBateau(bateau.Id)">Supprimer</button>
+        </li>
+    }
+</ul>
+
+@code {
+    List<Boats> bateaux = new();
+    Boats formBateau = new();
+    int? editingId = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        bateaux = await db.Bateaux.ToListAsync();
+    }
+
+    async Task SaveBateau()
+    {
+        if (string.IsNullOrWhiteSpace(formBateau.Nom)) return;
+
+        if (editingId == null)
+        {
+            db.Bateaux.Add(formBateau);
+        }
+        else
+        {
+            var existing = await db.Bateaux.FindAsync(editingId);
+            if (existing != null)
+            {
+                existing.Nom = formBateau.Nom;
+                existing.Capacite = formBateau.Capacite;
+                existing.Type = formBateau.Type;
+            }
+            editingId = null;
+        }
+
+        await db.SaveChangesAsync();
+        bateaux = await db.Bateaux.ToListAsync();
+        formBateau = new();
+    }
+
+    void EditBateau(Boats bateau)
+    {
+        editingId = bateau.Id;
+        formBateau = new Boats
+        {
+            Id = bateau.Id,
+            Nom = bateau.Nom,
+            Capacite = bateau.Capacite,
+            Type = bateau.Type
+        };
+    }
+
+    async Task DeleteBateau(int id)
+    {
+        var b = await db.Bateaux.FindAsync(id);
+        if (b != null)
+        {
+            db.Bateaux.Remove(b);
+            await db.SaveChangesAsync();
+            bateaux = await db.Bateaux.ToListAsync();
+        }
+    }
+
+    void CancelEdit()
+    {
+        editingId = null;
+        formBateau = new();
+    }
+}

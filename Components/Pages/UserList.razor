@@ -1,33 +1,123 @@
 ﻿@page "/utilisateurs"
 @using BlazorApp1.Components.Data
-@using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext DbContext
+@inject ApplicationDbContext Db
 
-<h3>Liste des utilisateurs</h3>
+<h3>Gestion des utilisateurs</h3>
 
-@if (users == null)
+@if (!string.IsNullOrWhiteSpace(message))
 {
-    <p>Chargement...</p>
+    <div class="alert @alertClass">@message</div>
 }
-else if (!users.Any())
-{
-    <p>Aucun utilisateur pour le moment.</p>
-}
-else
-{
-    <ul>
-        @foreach (var user in users)
+
+<EditForm Model="@utilisateur" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-2">
+        <div class="col">
+            <InputText class="form-control" @bind-Value="utilisateur.Nom" placeholder="Nom" />
+        </div>
+        <div class="col">
+            <InputText class="form-control" @bind-Value="utilisateur.Email" placeholder="Email" />
+        </div>
+        <div class="col">
+            <InputText class="form-control" @bind-Value="utilisateur.Telephone" placeholder="Téléphone" />
+        </div>
+        <div class="col">
+            <InputText class="form-control" @bind-Value="utilisateur.MotDePasse" placeholder="Mot de passe" />
+        </div>
+        <div class="col">
+            <InputCheckbox class="form-check-input" @bind-Value="utilisateur.EstAdmin" /> Admin
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">
+                @(utilisateur.Id == 0 ? "Ajouter" : "Mettre à jour")
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Admin</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in utilisateurs)
         {
-            <li>@user.Nom - @user.Email</li>
+            <tr>
+                <td>@u.Nom</td>
+                <td>@u.Email</td>
+                <td>@u.Telephone</td>
+                <td>@(u.EstAdmin ? "Oui" : "Non")</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" @onclick="() => Editer(u)">✏️</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => Supprimer(u.Id)">🗑️</button>
+                </td>
+            </tr>
         }
-    </ul>
-}
+    </tbody>
+</table>
 
 @code {
-    private List<User>? users;
+    private List<User> utilisateurs = new();
+    private User utilisateur = new();
+    private string? message;
+    private string alertClass = "alert-success";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        users = await DbContext.Users.ToListAsync();
+        utilisateurs = Db.Users.ToList();
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (utilisateur.Id == 0)
+        {
+            Db.Users.Add(utilisateur);
+            message = "Utilisateur ajouté avec succès.";
+        }
+        else
+        {
+            Db.Users.Update(utilisateur);
+            message = "Utilisateur mis à jour.";
+        }
+
+        Db.SaveChanges();
+        utilisateurs = Db.Users.ToList();
+        utilisateur = new();
+        alertClass = "alert-success";
+    }
+
+    private void Editer(User u)
+    {
+        utilisateur = new User
+        {
+            Id = u.Id,
+            Nom = u.Nom,
+            Email = u.Email,
+            Telephone = u.Telephone,
+            MotDePasse = u.MotDePasse,
+            EstAdmin = u.EstAdmin
+        };
+    }
+
+    private void Supprimer(int id)
+    {
+        var u = Db.Users.Find(id);
+        if (u != null)
+        {
+            Db.Users.Remove(u);
+            Db.SaveChanges();
+            utilisateurs = Db.Users.ToList();
+            message = "Utilisateur supprimé.";
+            alertClass = "alert-warning";
+        }
     }
 }
+
