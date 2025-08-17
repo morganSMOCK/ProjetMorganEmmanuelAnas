@@ -1,8 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,31 +12,50 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
 </head>
-
 <body>
-    <script src="_framework/blazor.web.js"></script>
-</body>
+    <!-- ✅ Navbar horizontale -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/">
+                <img src="img/logo.png" alt="Logo SailingLoc" class="img-fluid" style="height: 40px;" />
+            </a>
 
-</html>
+            <!-- Bouton mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+            <!-- Liens -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><NavLink class="nav-link" href="/ajouter-utilisateur" Match="NavLinkMatch.All">S’inscrire</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/BoatList" Match="NavLinkMatch.Prefix">Nos Bateaux</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/BoatList" Match="NavLinkMatch.Prefix">Mes Favoris</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/BoatList" Match="NavLinkMatch.Prefix">Nouveauté</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/bateaux">Bateaux</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/ajouter-bateau">Ajouter mon bateau</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/MonPermis">Mon permis bateau</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/panier">Panier</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="/login">Se connecter</NavLink></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ Contenu principal -->
+    <div class="body-content">
+        @Body
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <!-- ✅ Erreurs Blazor -->
+    <div id="blazor-error-ui">
+        Une erreur est survenue.
+        <a href="" class="reload">Recharger</a>
+        <a class="dismiss">🗙</a>
+    </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>

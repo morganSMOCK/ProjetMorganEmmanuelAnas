@@ -1,107 +1,103 @@
+/* === GENERAL === */
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f0f8ff; /* bleu très clair façon ciel marin */
-    color: #1d3557; /* bleu foncé lisible */
+    background-color: #f0f8ff;
+    color: #1d3557;
 }
 
-.page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background: url('img/wave-bg.svg') repeat-x bottom;
-    background-size: contain;
+.body-content {
+    padding-top: 80px; /* espace pour navbar fixe */
 }
 
-main {
-    flex: 1;
-    padding: 1rem;
+/* === NAVBAR === */
+.navbar {
+    z-index: 10000;
+    border-bottom: 3px solid #ffc300;
+    background-color: #ffffff !important; /* fond blanc */
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* --- Barre latérale façon cabine marine --- */
-.sidebar {
-    background-image: linear-gradient(180deg, #003566 0%, #001d3d 100%);
-    color: white;
-    border-right: 3px solid #ffc300;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+/* Logo */
+.navbar-brand img {
+    height: 45px;
 }
 
-/* --- Barre du haut style marin blanc + or --- */
-.top-row {
-    background-color: #ffffff;
-    border-bottom: 3px solid #ffc300; /* or marin */
-    justify-content: space-between;
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
+/* Couleurs globales */
+:root {
+    --nav-text: #264d3b; /* vert foncé */
+    --nav-hover: #ffc300; /* doré */
 }
 
-    .top-row a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-        text-decoration: none;
-        color: #003566;
+/* Liens */
+.navbar-nav {
+    gap: 1rem;
+}
+
+    .navbar-nav .nav-link {
+        position: relative;
+        padding: 0.5rem 1rem;
         font-weight: 600;
+        color: var(--nav-text) !important; /* texte vert */
+        transition: color .25s ease;
+        text-decoration: none;
     }
 
-        .top-row a:hover, .top-row .btn-link:hover {
-            text-decoration: underline;
-            color: #ffc300;
-        }
-
-        .top-row a:first-child {
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-    /* --- Logo --- */
-    .top-row img {
-        height: 40px;
-        margin-left: auto;
-    }
-
-/* --- Responsive adjustments --- */
-@media (max-width: 640.98px) {
-    .top-row {
-        justify-content: space-between;
-    }
-
-        .top-row a, .top-row .btn-link {
-            margin-left: 0;
-        }
-}
-
-@media (min-width: 641px) {
-    .page {
-        flex-direction: row;
-    }
-
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .top-row {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-
-        .top-row.auth a:first-child {
-            flex: 1;
-            text-align: right;
+        /* Soulignement animé */
+        .navbar-nav .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 4px;
+            height: 2px;
             width: 0;
+            background: var(--nav-hover);
+            transition: all .3s ease;
+            transform: translateX(-50%);
         }
 
-    .top-row, article {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--nav-hover) !important;
+        }
+
+            .navbar-nav .nav-link:hover::after,
+            .navbar-nav .nav-link.active::after {
+                width: 60%;
+            }
+
+/* === FOOTER === */
+footer {
+    font-size: 0.9rem;
+    padding-top: 2rem;
 }
 
-/* --- Blazor error styling --- */
+    footer ul li a {
+        text-decoration: none;
+    }
+
+/* === BOUTON NAVIGATION SPÉCIAL === */
+.nav-maritime {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background-color: #003566;
+    color: #fff !important;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+    .nav-maritime:hover,
+    .nav-maritime.active {
+        background-color: #001d3d;
+        color: #ffc300 !important;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+/* === ERREUR BLAZOR === */
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

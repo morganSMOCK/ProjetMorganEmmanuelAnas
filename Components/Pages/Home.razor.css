@@ -1,50 +1,292 @@
-﻿.video-hero-container {
+﻿/* ============ GENERAL ============ */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f8ff;
+    color: #1d3557;
+}
+
+.body-content {
+    padding-top: 80px;
+}
+
+/* ============ NAVBAR (fond blanc, texte vert + soulignement animé) ============ */
+.navbar {
+    z-index: 10000;
+    background-color: #ffffff !important;
+    border-bottom: 3px solid #ffc300;
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+}
+
+    /* Texte vert */
+    .navbar .nav-link {
+        color: #264d3b !important;
+        font-weight: 600;
+        position: relative;
+        padding: .5rem 1rem;
+        transition: color .25s ease;
+    }
+
+        /* Soulignement animé */
+        .navbar .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 1rem;
+            right: 1rem;
+            bottom: 6px;
+            height: 2px;
+            background: #ffc300;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform .25s ease;
+        }
+
+        .navbar .nav-link:hover::after,
+        .navbar .nav-link.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Hover: texte doré */
+        .navbar .nav-link:hover,
+        .navbar .nav-link.active {
+            color: #ffc300 !important;
+        }
+
+/* ============ HERO (vidéo + form + CTA) ============ */
+.video-hero-container {
     position: relative;
-    height: 70vh; /* Réduit la hauteur de la vidéo à 70% de la hauteur de l'écran */
+    height: 100vh;
     overflow: hidden;
+    background: #000;
+    z-index: 0;
 }
 
 .bg-video {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     z-index: 1;
-    transform: translate(-50%, -50%);
-    object-fit: cover; /* Assure que la vidéo couvre toute la zone sans déformer l'image */
 }
 
 .video-overlay {
     position: relative;
     z-index: 2;
-    padding: 2rem;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Légère superposition sombre pour le texte */
+    background: rgba(0,0,0,.4);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
 }
 
 .text-gold {
     color: #ffc300;
 }
 
-.btn-maritime {
-    background-color: #003566;
-    color: #fff;
-    border: 2px solid #ffc300;
-    padding: 0.75rem 1.5rem;
-    font-weight: bold;
+.search-box {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    color: #000;
+    padding: 2rem;
     border-radius: 12px;
-    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
 }
 
-    .btn-maritime:hover {
-        background-color: #001d3d;
-        color: #ffc300;
-        border-color: white;
+    .search-box .form-label {
+        font-weight: 500;
+        font-size: .9rem;
     }
 
+/* Bouton DORÉ pour la recherche */
+.btn-gold {
+    --gold: #ffc300;
+    --gold-dark: #e6b800;
+    --gold-darker: #cc9a00;
+    background: var(--gold) !important;
+    color: #000 !important;
+    border: 2px solid var(--gold-dark) !important;
+    font-weight: 700;
+    transition: all .25s ease;
+}
+
+    .btn-gold:hover {
+        background: var(--gold-dark) !important;
+        border-color: var(--gold-darker) !important;
+        transform: translateY(-1px);
+    }
+
+    .btn-gold:active {
+        background: var(--gold-darker) !important;
+        border-color: #b38600 !important;
+    }
+
+/* CTA doré */
+.call-to-action {
+    display: inline-block;
+    background: #ffc300;
+    color: #000;
+    border: 2px solid #e6b800;
+    padding: .75rem 1.5rem;
+    font-weight: 700;
+    border-radius: 12px;
+    transition: all .3s ease;
+    text-decoration: none;
+    margin-top: 1.5rem;
+}
+
+    .call-to-action:hover {
+        background: #e6b800;
+        color: #000;
+        border-color: #cc9a00;
+        transform: translateY(-2px);
+    }
+
+    .call-to-action:active {
+        background: #cc9a00;
+        border-color: #b38600;
+    }
+
+.cta-wrapper {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Espace entre le hero et la suite */
+.hero-gap {
+    height: 64px;
+}
+
+/* ============ SÉLECTION (grille 3 grandes / 3 petites, label sur image) ============ */
+.selection {
+    position: relative;
+    z-index: 3;
+    padding: 48px 0;
+    background: #f5faff;
+}
+
+.selection-title {
+    text-align: center;
+    font-size: clamp(1.6rem, 2.4vw, 2rem);
+    font-weight: 800;
+    margin-bottom: 22px;
+    color: #1c2331;
+}
+
+.selection-title-accent {
+    background: linear-gradient(90deg,#6a11cb,#ff7f50);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Grille 3 colonnes, 2 lignes; large = 2 rangées */
+.grid-selection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 170px; /* HAUTEUR de base des petites */
+    gap: 20px;
+    width: min(1200px, 92%);
+    margin: 0 auto;
+}
+
+.card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #e9eef5;
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+    cursor: pointer;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+    .card.small {
+        grid-row: span 1;
+    }
+
+    .card.large {
+        grid-row: span 2;
+    }
+
+    .card img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.01);
+        transition: transform .5s ease;
+    }
+
+    .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%);
+    }
+
+    .card .label {
+        position: absolute;
+        left: 14px;
+        bottom: 12px;
+        color: #fff;
+        z-index: 2;
+        font-weight: 800;
+        font-size: 20px;
+        text-shadow: 0 2px 6px rgba(0,0,0,.35);
+    }
+
+    .card:hover {
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+.selection-sublist {
+    margin-top: 18px;
+    text-align: center;
+    font-size: .95rem;
+    color: #6c757d;
+}
+
+    .selection-sublist a {
+        color: #0056b3;
+        text-decoration: none;
+    }
+
+        .selection-sublist a:hover {
+            text-decoration: underline;
+        }
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .grid-selection {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 160px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .grid-selection {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 200px;
+        gap: 16px;
+    }
+
+    .card.large {
+        grid-row: span 2;
+    }
+}
+
+/* ============ EXEMPLES D’AUTRES BLOCS ============ */
 .features-section {
     padding: 4rem 0;
 }
@@ -53,3 +295,66 @@
     width: 60px;
     height: 60px;
 }
+
+.logo-partner {
+    height: 30px;
+    margin: 0 10px;
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.boat-type img {
+    height: 160px;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.boat-type p {
+    margin-top: .5rem;
+    font-weight: 600;
+}
+
+.testimonial-card {
+    background: #fff;
+    color: #000;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+.accordion-button:not(.collapsed) {
+    background: #e9ecef;
+    color: #000;
+    font-weight: 700;
+}
+
+/* ============ FOOTER ============ */
+footer {
+    font-size: .9rem;
+}
+
+    footer ul li a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+        footer ul li a:hover {
+            text-decoration: underline;
+            color: #ffc300;
+        }
+
+    footer input.form-control {
+        background: #f8f9fa;
+        border: none;
+        border-radius: 6px;
+        padding: .4rem .75rem;
+    }
+
+    footer button.btn-sm {
+        margin-top: .5rem;
+        font-size: .85rem;
+    }

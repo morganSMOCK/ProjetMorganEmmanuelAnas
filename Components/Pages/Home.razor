@@ -1,36 +1,250 @@
 ﻿@page "/"
 
-<div class="video-hero-container">
+<!-- ================= HERO ================= -->
+<section class="video-hero-container">
     <video autoplay muted loop playsinline class="bg-video">
-        <source src="video/sea-sailing.mp4" type="video/mp4">
+        <source src="video/3577963-uhd_3840_2160_30fps.mp4" type="video/mp4" />
         Votre navigateur ne supporte pas la vidéo HTML5.
     </video>
 
-    <div class="video-overlay d-flex flex-column justify-content-center align-items-center text-white text-center">
-        <h1 class="display-3 fw-bold">Bienvenue à bord de <span class="text-gold">SailingLoc</span> !</h1>
+    <div class="video-overlay d-flex flex-column justify-content-center align-items-center text-center">
+        <h1 class="display-3 fw-bold">
+            Bienvenue à bord de <span class="text-gold">SailingLoc</span> !
+        </h1>
         <p class="lead mt-3">Louez votre bateau et vivez l'aventure en mer.</p>
-        <NavLink href="/BoatList" class="btn btn-maritime mt-4">
-            <span class="oi oi-boat me-2" aria-hidden="true"> Voir nos bateaux</span>
-        </NavLink>
-    </div>
-</div>
 
-<section class="features-section mt-5 container">
-    <div class="row text-center">
-        <div class="col-md-4">
-            <img src="img/icon-anchor.svg" class="feature-icon mb-3" />
-            <h4>Navigation sécurisée</h4>
-            <p>Bateaux inspectés, matériel de sécurité inclus.</p>
+        <!-- Boîte de recherche -->
+        <div class="search-box bg-white text-dark p-4 rounded shadow mt-4">
+            <h5 class="text-center mb-3">Location de bateaux</h5>
+            <div class="mb-3">
+                <label class="form-label">Lieu de départ :</label>
+                <input type="text" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date de début :</label>
+                <input type="date" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Date de fin :</label>
+                <input type="date" class="form-control" />
+            </div>
+            <!-- Bouton en DORÉ -->
+            <button class="btn btn-gold w-100">🔍 Rechercher</button>
         </div>
-        <div class="col-md-4">
-            <img src="img/icon-sail.svg" class="feature-icon mb-3" />
-            <h4>Aventure libre</h4>
-            <p>Choisissez votre cap, larguez les amarres. </p>
-        </div>
-        <div class="col-md-4">
-            <img src="img/icon-wave.svg" class="feature-icon mb-3" />
-            <h4>Réservation simple</h4>
-            <p>Un clic, un bateau, c’est parti.</p>
+
+        <!-- CTA doré -->
+        <div class="cta-wrapper">
+            <a href="/BoatList" class="call-to-action">Voir nos bateaux</a>
         </div>
     </div>
 </section>
+
+<!-- Espace entre le hero et la suite -->
+<div class="hero-gap"></div>
+
+<!-- ================= SÉLECTION ================= -->
+<section class="selection">
+    <h2 class="selection-title">
+        La sélection de <span class="selection-title-accent">la communauté</span>
+    </h2>
+
+    <div class="grid-selection">
+        <!-- ligne 1 -->
+        <div class="card small">
+            <img src="img/moteur.jpg" alt="Bateau à moteur">
+            <div class="label">Bateau à moteur</div>
+        </div>
+
+        <div class="card large">
+            <img src="img/catamaran.jpg" alt="Catamaran">
+            <div class="label">Catamaran</div>
+        </div>
+
+        <div class="card small">
+            <img src="img/corse.jpg" alt="Corse">
+            <div class="label">Corse</div>
+        </div>
+
+        <!-- ligne 2 -->
+        <div class="card large">
+            <img src="img/voilier.jpg" alt="Voilier">
+            <div class="label">Voilier</div>
+        </div>
+
+        <div class="card large">
+            <img src="img/marseille.jpg" alt="Marseille">
+            <div class="label">Marseille</div>
+        </div>
+
+        <div class="card small">
+            <img src="img/martinique.jpg" alt="Martinique">
+            <div class="label">Martinique</div>
+        </div>
+    </div>
+
+    <p class="selection-sublist">
+        Découvrez aussi :
+        <a href="/BoatList?destination=ajaccio">Ajaccio</a>,
+        <a href="/BoatList?destination=annecy">Annecy</a>,
+        <a href="/BoatList?destination=antibes">Antibes</a>,
+        <a href="/BoatList?destination=arcachon">Arcachon</a>,
+        <a href="/BoatList?destination=bretagne">Bretagne</a>,
+        <a href="/BoatList?destination=nice">Nice</a>,
+        <a href="/BoatList?destination=toulon">Toulon</a>
+    </p>
+</section>
+
+<!-- ================= SECTIONS EXEMPLE ================= -->
+<section class="py-5 container">
+    <h3 class="text-center mb-2">Nos bons plans</h3>
+    <p class="text-center text-muted">Découvrez les bateaux en tendance sur notre plateforme</p>
+    <div class="row g-4 mt-4">
+        @foreach (var bateau in BonsPlans)
+        {
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <img src="@bateau.ImageUrl" class="card-img-top" alt="@bateau.Nom" />
+                    <div class="card-body">
+                        <h5 class="card-title">@bateau.Nom</h5>
+                        <p>À partir de : <strong>@bateau.Prix €</strong></p>
+                        <NavLink class="btn btn-primary w-100" href="/BoatList">Réserver maintenant</NavLink>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h3 class="mb-4">Nos bateaux</h3>
+        <div class="row g-4">
+            @foreach (var type in TypesDeBateaux)
+            {
+                <div class="col-6 col-md-3">
+                    <img src="@type.ImageUrl" class="img-fluid rounded" alt="@type.Nom" />
+                    <p class="mt-2 fw-semibold">@type.Nom</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="py-5 container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <img src="img/permis.jpg" class="img-fluid rounded" alt="Permis bateau" />
+        </div>
+        <div class="col-md-6">
+            <h4 class="mb-3">Je passe mon permis</h4>
+            <p>
+                Préparez-vous pour une aventure en mer en obtenant votre permis bateau avec SailingLoc.
+                Notre formation complète vous mettra sur la voie de devenir un capitaine confiant et compétent.
+            </p>
+            <NavLink href="/MonPermis" class="btn btn-info">En savoir plus</NavLink>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 text-white" style="background-color: #001d3d;">
+    <div class="container text-center">
+        <h3 class="mb-4">Avis</h3>
+        <div class="row g-3 justify-content-center">
+            @foreach (var avis in AvisClients)
+            {
+                <div class="col-md-3">
+                    <div class="bg-white text-dark p-3 rounded shadow-sm">
+                        <strong>@avis.Nom</strong>
+                        <div class="text-warning">★★★★★</div>
+                        <p>@avis.Message</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <NavLink href="/Avis" class="btn btn-outline-light mt-4">Voir tous les avis</NavLink>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h3 class="text-center mb-4">FAQ</h3>
+        <div class="accordion" id="faqAccordion">
+            @for (int i = 0; i < FaqList.Count; i++)
+            {
+                var faq = FaqList[i];
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading@i">
+                        <button class="accordion-button @(i == 0 ? "" : "collapsed")"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse@i"
+                                aria-expanded="@(i == 0 ? "true" : "false")">
+                            @faq.Question
+                        </button>
+                    </h2>
+                    <div id="collapse@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">@faq.Reponse</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h6>Sailing Loc</h6>
+                <p>La voile pour tous</p>
+            </div>
+            <div class="col-md-4">
+                <h6>Liens rapides</h6>
+                <ul class="list-unstyled">
+                    <li><NavLink class="text-white" href="/Location">Location bateaux</NavLink></li>
+                    <li><NavLink class="text-white" href="/MonPermis">Mon permis</NavLink></li>
+                    <li><NavLink class="text-white" href="/Partenaires">Nos partenaires</NavLink></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>Newsletter</h6>
+                <input type="email" class="form-control mb-2" placeholder="votre@email.com" />
+                <button class="btn btn-primary btn-sm">S'abonner</button>
+            </div>
+        </div>
+        <div class="text-center mt-3 small">© SailingLoc 2025 - Tous droits réservés</div>
+    </div>
+</footer>
+
+@code {
+    private List<(string Nom, string ImageUrl, decimal Prix)> BonsPlans = new()
+  {
+    ("Jeanneau - Cap Camarat", "img/bateau1.jpg", 500),
+    ("Azimut 100", "img/bateau2.jpg", 210),
+    ("Rodman 56 - 2004", "img/bateau3.jpg", 250)
+  };
+
+    private List<(string Nom, string ImageUrl)> TypesDeBateaux = new()
+  {
+    ("Bateaux à moteur", "img/type1.jpg"),
+    ("Catamarans", "img/type2.jpg"),
+    ("Voiliers", "img/type3.jpg"),
+    ("Yachts", "img/type4.jpg")
+  };
+
+    private List<(string Nom, string Message)> AvisClients = new()
+  {
+    ("Mohamed Taouaria", "Good"),
+    ("Royce", "Très belle expérience, je recommande SailingLoc."),
+    ("Tia", "J’ai adoré le bateau et le service était parfait."),
+    ("Laurent", "Très satisfait de mon voyage en mer.")
+  };
+
+    private List<(string Nom, string Reponse)> FaqList = new()
+  {
+    ("Comment louer un bateau ?", "Cliquez sur le bouton 'Réserver maintenant' sur la page du bateau."),
+    ("Quels documents sont nécessaires ?", "Un permis bateau valide est requis pour certaines locations."),
+    ("Puis-je annuler ma réservation ?", "Oui, selon les conditions de votre contrat."),
+    ("Quels moyens de paiement acceptez-vous ?", "Carte bancaire, PayPal et virement bancaire.")
+  };
+}
