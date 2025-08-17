@@ -1,7 +1,7 @@
 ﻿namespace BlazorApp1.Components.Models
 
 {
-    public class Boats
+    public class Boat
     {
         public int Id { get; set; }
         public string Nom { get; set; }

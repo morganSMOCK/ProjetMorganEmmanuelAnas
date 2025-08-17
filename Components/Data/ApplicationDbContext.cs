@@ -10,5 +10,6 @@ namespace BlazorApp1.Components.Data
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Boat> Boats { get; set; }
     }
 }

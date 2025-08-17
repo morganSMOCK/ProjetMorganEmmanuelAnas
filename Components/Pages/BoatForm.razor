@@ -1,0 +1,71 @@
+﻿@page "/ajouter-bateau"
+@using BlazorApp1.Components.Models
+@using BlazorApp1.Components.Data
+@using BoatModel = BlazorApp1.Components.Models.Boat
+@using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
+@inject ApplicationDbContext DbContext
+
+<h3>Ajouter un bateau</h3>
+
+<EditForm Model="@newBoat" OnValidSubmit="HandleValidSubmit" FormName="ajout-utilisateur">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-2">
+        <label>Nom :</label>
+        <InputText @bind-Value="newBoat.Nom" placeholder="Nom du bateau" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Prix par jour :</label>
+        <InputNumber @bind-Value="newBoat.PrixParJour" placeholder="Prix par jour" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Capacité :</label>
+        <InputNumber @bind-Value="newBoat.Capacite" placeholder="Nombre de personnes" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Image URL :</label>
+        <InputText @bind-Value="newBoat.ImageUrl" placeholder="URL de l'image" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label>Description :</label>
+        <InputText @bind-Value="newBoat.Description" placeholder="Description du bateau" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+
+</EditForm>
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <div class="alert alert-success mt-2">@message</div>
+}
+
+@code {
+    private BoatModel newBoat = new BoatModel(); // Modèle lié au formulaire
+    private string? message; // Message de confirmation
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            DbContext.Boats.Add(newBoat);
+            await DbContext.SaveChangesAsync();
+
+            message = "Bateau ajouté avec succès !";
+
+            // Réinitialisation du formulaire
+            newBoat = new();
+        }
+        catch (Exception ex)
+        {
+            message = $"Erreur lors de l'ajout du bateau : {ex.Message}";
+        }
+    }
+}
